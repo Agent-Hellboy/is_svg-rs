@@ -1,0 +1,16 @@
+[package]
+name = "is_svg"
+version = "0.0.1"
+authors = ["princekrroshan01 <princekrroshan01@gmail.com>"]
+description = "A library that determines whether the image type is SVG or not."
+edition = "2018"
+categories = ["multimedia::images"]
+repository = "https://github.com/Agent-Hellboy/is_svg-rs"
+license = "Apache-2.0 OR MIT"
+readme = "README.md"
+
+
+
+[dependencies]
+regex = "1"
+content_inspector = "0.2.4"

@@ -2,11 +2,11 @@ extern crate content_inspector;
 extern crate regex;
 
 use content_inspector::{inspect, ContentType};
+use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs;
 use std::io;
 use std::string::FromUtf8Error;
-use lazy_static::lazy_static;
 
 lazy_static! { // using lazy_static because compiling regex is expensive
     static ref SVG_REGEX: Regex = Regex::new(r"(?:<\?xml\b[^>]*>[^<]*)?(?:<!--.*?-->[^<]*)*(?:<svg|<!DOCTYPE svg)\b")
@@ -25,8 +25,9 @@ pub fn is_svg(filename: &str) -> Result<bool, Error> {
     }
 }
 
+// so that we can return our own appropriate error
 #[derive(Debug)]
-pub enum Error { // so that we can return our own appropriate error
+pub enum Error {
     IOError(io::Error),
     Utf8ParseError(FromUtf8Error),
 }
@@ -35,7 +36,7 @@ impl std::error::Error for Error {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         Some(match self {
             Error::IOError(e) => e,
-            Error::Utf8ParseError(e) => e
+            Error::Utf8ParseError(e) => e,
         })
     }
 }
@@ -44,7 +45,7 @@ impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Error::IOError(e) => write!(f, "couldn't read from file: {}", e),
-            Error::Utf8ParseError(e) => write!(f, "couldn't parse utf-8: {}", e)
+            Error::Utf8ParseError(e) => write!(f, "couldn't parse utf-8: {}", e),
         }
     }
 }

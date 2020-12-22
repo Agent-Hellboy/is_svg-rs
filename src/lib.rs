@@ -18,7 +18,7 @@ pub fn is_svg(filename: &str) -> Result<bool, Error> {
 
     let content_type = inspect(&data);
     if (content_type != ContentType::UTF_8) && (content_type != ContentType::UTF_8_BOM) {
-        unimplemented!("currently doesn't support UTF-8")
+        unimplemented!("currently doesn't support non UTF-8")
     } else {
         let joined = String::from_utf8(data)?;
         Ok(SVG_REGEX.is_match(&joined))
